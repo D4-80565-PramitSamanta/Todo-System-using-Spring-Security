@@ -1,9 +1,19 @@
-import React, { useState } from 'react';
-import { AddTodo } from '../services/service';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { AddTodo, GetTodo } from '../services/service';
+import { useNavigate, useParams } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css'; // Import Bootstrap CSS
 
 const TodoComponent = () => {
+    const {id} = useParams();
+    useEffect(()=>
+    {
+        console.log(id);
+        if (id) {
+            GetTodo(id)
+                .then(res => setTodo(res.data))
+                .catch(err => console.log(err));
+        }
+    },[id])
     const navigate = useNavigate();
 
     const [todo, setTodo] = useState({
@@ -30,10 +40,15 @@ const TodoComponent = () => {
 
         const isValid = validate(); // Call validation function
         if (!isValid) return; // Exit if validation fails
-
-        AddTodo(todo)
-            .then(() => navigate('/'))
-            .catch(err => console.log(err));
+        if(id){
+            EditTodo
+        }
+        else{
+            AddTodo(todo)
+                .then(() => navigate('/'))
+                .catch(err => console.log(err));
+        }
+        
     }
 
     function handleCompletedChange() {

@@ -49,4 +49,11 @@ public class TodoController {
         ApiResponse res = todoService.inCompleteTodo(todoId);
         return new ResponseEntity<>(res,HttpStatus.OK);
     }
+    
+    @PutMapping("edit/{id}")
+    public ResponseEntity<ApiResponse> editTodo(@PathVariable long id, @RequestBody TodoDTO dto)
+    {
+    	ApiResponse res = todoService.editTodo(id,dto);
+        return new ResponseEntity<>(res,HttpStatus.OK);
+    }
 }

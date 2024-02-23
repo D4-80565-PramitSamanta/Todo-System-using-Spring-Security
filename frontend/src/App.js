@@ -12,6 +12,7 @@ function App() {
           <Route path="/" element={<ListComponents />} /> 
           <Route path="/all" element={<ListComponents />} />
           <Route path="/add" element={<TodoComonent />} />
+          <Route path='/edit/:id' element={<TodoComonent />} />
         </Routes>
       </BrowserRouter>
     </div>

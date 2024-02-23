@@ -77,6 +77,17 @@ public class TodoServiceImpl implements TodoService {
         return (new ApiResponse(201,"Todo is not complete!!"));     
 	}
 
+
+	@Override
+	public ApiResponse editTodo(long id, TodoDTO dto) {
+		Todo todo = todoDAO.findById(id)
+                .orElseThrow(() -> new ResourceNotFound("Todo not found with id : " + id));
+		todo.setCompleted(dto.isCompleted());
+		todo.setDescription(dto.getDescription());
+		todo.setTitle(dto.getTitle());
+        return (new ApiResponse(201,"Todo edited !!"));     
+	}
+
 	
 
 }

@@ -12,4 +12,5 @@ public interface TodoService {
     ApiResponse updateTodo(TodoDTO todoDto, Long id);
     ApiResponse completeTodo(Long id);
     ApiResponse inCompleteTodo(Long id);
+	ApiResponse editTodo(long id, TodoDTO dto);
 }	
