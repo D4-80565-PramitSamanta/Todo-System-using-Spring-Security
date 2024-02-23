@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { AddTodo, GetTodo } from '../services/service';
+import { AddTodo, EditTodo, GetTodo } from '../services/service';
 import { useNavigate, useParams } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css'; // Import Bootstrap CSS
 
@@ -41,7 +41,10 @@ const TodoComponent = () => {
         const isValid = validate(); // Call validation function
         if (!isValid) return; // Exit if validation fails
         if(id){
-            EditTodo
+            
+            EditTodo(id,todo)
+            .then(() => navigate('/'))
+            .catch(err => console.log(err));
         }
         else{
             AddTodo(todo)

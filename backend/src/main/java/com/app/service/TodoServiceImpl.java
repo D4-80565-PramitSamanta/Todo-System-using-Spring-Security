@@ -85,6 +85,7 @@ public class TodoServiceImpl implements TodoService {
 		todo.setCompleted(dto.isCompleted());
 		todo.setDescription(dto.getDescription());
 		todo.setTitle(dto.getTitle());
+		todoDAO.save(todo);
         return (new ApiResponse(201,"Todo edited !!"));     
 	}
 
