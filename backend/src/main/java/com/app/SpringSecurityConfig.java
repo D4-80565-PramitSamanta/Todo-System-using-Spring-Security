@@ -3,6 +3,7 @@ package com.app;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.User;
@@ -12,6 +13,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+
 
 @Configuration
 public class SpringSecurityConfig {
@@ -24,14 +26,20 @@ public class SpringSecurityConfig {
 	
 	
 	@Bean
-	SecurityFilterChain securityFilterChain (HttpSecurity http ) throws Exception
-	{
-		http.csrf().disable()
-		.authorizeHttpRequests((autherize)->
-		{autherize.anyRequest().authenticated();
-	}).httpBasic(Customizer.withDefaults());
-		return http.build();
+	SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+	    http
+	        .authorizeHttpRequests((authorize) -> { // Configure authorization rules
+	            authorize
+	                .antMatchers(HttpMethod.POST, "/todos/**").hasRole("ADMIN") // Allow POST requests to "/todos/**" only for users with role "ADMIN"
+	                .antMatchers(HttpMethod.PUT,"/todos/**").hasRole("ADMIN")
+	                .antMatchers(HttpMethod.DELETE,"/todos/**").hasRole("ADMIN")
+	                .anyRequest().authenticated(); // Require authentication for any other request
+	        })
+	        .httpBasic(Customizer.withDefaults()) // Use HTTP Basic authentication with default settings
+	        .csrf().disable(); // Disable CSRF protection (place this last)
+	    return http.build(); // Build and return the configured HttpSecurity object
 	}
+
 	
 	@Bean
 	public UserDetailsService userDetailsService()
