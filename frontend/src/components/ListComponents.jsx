@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ListofTodos, DeleteTodo } from '../services/service'; // Import DeleteTodo
+import { ListofTodos, DeleteTodo, ComTodo, IncomTodo } from '../services/service'; // Import DeleteTodo
 import { useNavigate } from 'react-router-dom';
 
 const ListComponents = () => {
@@ -27,7 +27,26 @@ const ListComponents = () => {
             })
         .catch(err=>console.log(err));
     };
-
+    function handleComplete(id)
+    {
+        ComTodo(id)
+            .then(res => {
+                ListofTodos()
+                    .then(res => setTodos(res.data))
+                    .catch(err => console.log(err));
+            })
+            .catch(err => console.log(err));
+    }
+    function handleIncomplete(id)
+    {
+        IncomTodo(id)
+            .then(res => {
+                ListofTodos()
+                    .then(res => setTodos(res.data))
+                    .catch(err => console.log(err));
+            })
+            .catch(err => console.log(err));
+    }
     return (
         <div style={{ textAlign: 'center', width: '50%', margin: 'auto' }}>
             <button onClick={() => navigate("/add")}>Add Todo</button>
@@ -55,6 +74,12 @@ const ListComponents = () => {
                             </td>
                             <td>
                                 <button onClick={() => handleDelete(todo.id)}>Delete</button>
+                            </td>
+                            <td>
+                                <button onClick={() => handleComplete(todo.id)}>Complete</button>
+                            </td>
+                            <td>
+                                <button onClick={() => handleIncomplete(todo.id)}>Incomplete</button>
                             </td>
                         </tr>
                     ))}
