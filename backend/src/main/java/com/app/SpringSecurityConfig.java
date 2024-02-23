@@ -45,23 +45,23 @@ public class SpringSecurityConfig {
 	}
 
 	
-	@Bean
-	public UserDetailsService userDetailsService()
-	{
-		UserDetails ramesh = User.builder()
-				.username("ramesh")
-				.password(encoder().encode("111"))
-				.roles("USER")
-				.build();
-		
-		
-		UserDetails suresh = User.builder()
-				.username("suresh")
-				.password(encoder().encode("222"))
-				.roles("ADMIN")
-				.build();
-		
-		
-		return new InMemoryUserDetailsManager(ramesh, suresh);
-	}
+//	@Bean
+//	public UserDetailsService userDetailsService()
+//	{
+//		UserDetails ramesh = User.builder()
+//				.username("ramesh")
+//				.password(encoder().encode("111"))
+//				.roles("USER")
+//				.build();
+//		
+//		
+//		UserDetails suresh = User.builder()
+//				.username("suresh")
+//				.password(encoder().encode("222"))
+//				.roles("ADMIN")
+//				.build();
+//		
+//		
+//		return new InMemoryUserDetailsManager(ramesh, suresh);
+//	}
 }
