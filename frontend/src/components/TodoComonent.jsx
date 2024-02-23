@@ -12,16 +12,25 @@ const TodoComponent = () => {
         completed: false
     });
 
+    const [titleError, setTitleError] = useState('');
+    const [descError, setDescError] = useState('');
+
     function handleTitleChange(newTitle) {
         setTodo({ ...todo, title: newTitle });
+        setTitleError(''); // Clear error on title change
     }
 
     function handleDescChange(newDesc) {
         setTodo({ ...todo, description: newDesc });
+        setDescError(''); // Clear error on description change
     }
 
     function handleSubmit(event) {
         event.preventDefault();
+
+        const isValid = validate(); // Call validation function
+        if (!isValid) return; // Exit if validation fails
+
         AddTodo(todo)
             .then(() => navigate('/'))
             .catch(err => console.log(err));
@@ -29,6 +38,22 @@ const TodoComponent = () => {
 
     function handleCompletedChange() {
         setTodo({ ...todo, completed: !todo.completed });
+    }
+
+    function validate() {
+        let isValid = true;
+
+        if (todo.title.trim() === "") {
+            setTitleError("Title is required and cannot be empty spaces.");
+            isValid = false;
+        }
+
+        if (todo.description.trim() === "") {
+            setDescError("Description is required and cannot be empty spaces.");
+            isValid = false;
+        }
+
+        return isValid;
     }
 
     return (
@@ -46,8 +71,8 @@ const TodoComponent = () => {
                                 value={todo.title}
                                 onChange={(e) => handleTitleChange(e.target.value)}
                                 placeholder="Enter title"
-                                required
                             />
+                            {titleError && <span className="text-danger">{titleError}</span>}
                         </div>
                         <div className="mb-3">
                             <label htmlFor="description" className="form-label">Description:</label>
@@ -57,8 +82,8 @@ const TodoComponent = () => {
                                 value={todo.description}
                                 onChange={(e) => handleDescChange(e.target.value)}
                                 placeholder="Enter description"
-                                required
                             />
+                            {descError && <span className="text-danger">{descError}</span>}
                         </div>
                         <div className="mb-3">
                             <label htmlFor="completed">
