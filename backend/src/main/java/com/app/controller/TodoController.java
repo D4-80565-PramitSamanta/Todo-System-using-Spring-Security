@@ -35,4 +35,17 @@ public class TodoController {
         List<TodoDTO> todos = todoService.getAllTodos();
         return new ResponseEntity<>(todos, HttpStatus.OK);
     }
+    
+    // Build Complete Todo REST API
+    @PatchMapping("{id}/complete")
+    public ResponseEntity<ApiResponse> completeTodo(@PathVariable("id") Long todoId){
+        ApiResponse res = todoService.completeTodo(todoId);
+        return new ResponseEntity<>(res,HttpStatus.OK);
+    }
+
+    @PatchMapping("{id}/in-complete")
+    public ResponseEntity<ApiResponse> inCompleteTodo(@PathVariable("id") Long todoId){
+        ApiResponse res = todoService.inCompleteTodo(todoId);
+        return new ResponseEntity<>(res,HttpStatus.OK);
+    }
 }

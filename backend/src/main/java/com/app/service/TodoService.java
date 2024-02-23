@@ -9,4 +9,7 @@ public interface TodoService {
 	ApiResponse addTodo(TodoDTO dto);
 	TodoDTO getTodo(Long id);
     List<TodoDTO> getAllTodos();
+    ApiResponse updateTodo(TodoDTO todoDto, Long id);
+    ApiResponse completeTodo(Long id);
+    ApiResponse inCompleteTodo(Long id);
 }	

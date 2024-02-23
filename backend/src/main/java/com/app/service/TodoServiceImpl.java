@@ -12,6 +12,7 @@ import com.app.dao.TodoDAO;
 import com.app.dto.ApiResponse;
 import com.app.dto.TodoDTO;
 import com.app.entities.Todo;
+import com.app.exception.ResourceNotFound;
 
 @Service
 public class TodoServiceImpl implements TodoService {
@@ -41,4 +42,41 @@ public class TodoServiceImpl implements TodoService {
                 .map(todo -> modelMapper.map(todo, TodoDTO.class))
                 .collect(Collectors.toList());
     }
+
+
+	@Override
+	public ApiResponse updateTodo(TodoDTO todoDto, Long id) {
+		 Todo todo = todoDAO.findById(id)
+	                .orElseThrow(() -> new ResourceNotFound("Todo not found with id : " + id));
+	         todo.setTitle(todoDto.getTitle());
+	         todo.setDescription(todoDto.getDescription());
+	         todo.setCompleted(todoDto.isCompleted());
+	         todoDAO.save(todo);
+	         return (new ApiResponse(201,"Todo updated successfully!!"));        
+	}
+
+
+	@Override
+	public ApiResponse completeTodo(Long id) {
+		Todo todo = todoDAO.findById(id)
+                .orElseThrow(() -> new ResourceNotFound("Todo not found with id : " + id));
+
+        todo.setCompleted(Boolean.TRUE);
+        todoDAO.save(todo);
+        return (new ApiResponse(201,"Todo is complete!!"));        
+	}
+
+
+	@Override
+	public ApiResponse inCompleteTodo(Long id) {
+		Todo todo = todoDAO.findById(id)
+                .orElseThrow(() -> new ResourceNotFound("Todo not found with id : " + id));
+
+        todo.setCompleted(Boolean.FALSE);
+        todoDAO.save(todo);
+        return (new ApiResponse(201,"Todo is not complete!!"));     
+	}
+
+	
+
 }
