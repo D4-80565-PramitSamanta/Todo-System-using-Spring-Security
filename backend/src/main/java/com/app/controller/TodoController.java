@@ -56,4 +56,12 @@ public class TodoController {
     	ApiResponse res = todoService.editTodo(id,dto);
         return new ResponseEntity<>(res,HttpStatus.OK);
     }
+    
+	@DeleteMapping("delete/{id}")
+	public ResponseEntity<ApiResponse> deleteTodo(@PathVariable long id)
+	{
+		ApiResponse res = todoService.delete(id);
+		return new ResponseEntity<>(res,HttpStatus.OK);
+	}
+
 }

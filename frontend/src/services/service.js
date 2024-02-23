@@ -12,3 +12,6 @@ export const GetTodo = (id) => axios.get(geturl + '/' + id);
 const editurl = 'http://localhost:8080/todos/edit';
 export const EditTodo = (id,req) => axios.put(editurl + '/' + id,req);
 
+
+const deleteurl = 'http://localhost:8080/todos/delete';
+export const DeleteTodo = (id) => axios.delete(deleteurl + '/' + id);

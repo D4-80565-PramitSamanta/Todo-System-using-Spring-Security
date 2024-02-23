@@ -13,4 +13,5 @@ public interface TodoService {
     ApiResponse completeTodo(Long id);
     ApiResponse inCompleteTodo(Long id);
 	ApiResponse editTodo(long id, TodoDTO dto);
+	ApiResponse delete(long id);
 }	

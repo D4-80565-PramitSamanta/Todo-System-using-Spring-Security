@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ListofTodos, UpdateTodo } from '../services/service'; // Import UpdateTodo
+import { ListofTodos, DeleteTodo } from '../services/service'; // Import DeleteTodo
 import { useNavigate } from 'react-router-dom';
 
 const ListComponents = () => {
@@ -13,16 +13,26 @@ const ListComponents = () => {
             .catch(err => console.log(err));
     }, []);
 
-    const handleEdit = (i) => {
-        console.log(i);
-       navigate(`/edit/${i}`); // Navigate to edit page with ID
+    const handleEdit = (todo) => {
+        navigate(`/edit/${todo.id}`); // Navigate to edit page with ID
+    };
+
+    const handleDelete = (id) => {
+        DeleteTodo(id)
+        .then(res=>
+            {
+            ListofTodos()
+                .then(res => setTodos(res.data))
+                .catch(err => console.log(err));
+            })
+        .catch(err=>console.log(err));
     };
 
     return (
         <div style={{ textAlign: 'center', width: '50%', margin: 'auto' }}>
             <button onClick={() => navigate("/add")}>Add Todo</button>
             <h1>List Component</h1>
-            <table className="table table-striped table-bordered table-hover" style={{ backgroundColor: '#ff6f00', color: 'white' }}>
+            <table className="table table-striped table-bordered table-hover" >
                 <thead>
                     <tr>
                         <th>ID</th>
@@ -40,7 +50,11 @@ const ListComponents = () => {
                             <td>{todo.description}</td>
                             <td>{todo.completed ? 'Yes' : 'No'}</td>
                             <td>
-                                <button onClick={() => handleEdit(todo.id)}>Edit</button>
+                                <button onClick={() => handleEdit(todo)}>Edit</button>
+                                
+                            </td>
+                            <td>
+                                <button onClick={() => handleDelete(todo.id)}>Delete</button>
                             </td>
                         </tr>
                     ))}

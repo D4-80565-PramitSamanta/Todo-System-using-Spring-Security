@@ -7,6 +7,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.DeleteMapping;
 
 import com.app.dao.TodoDAO;
 import com.app.dto.ApiResponse;
@@ -89,6 +90,14 @@ public class TodoServiceImpl implements TodoService {
         return (new ApiResponse(201,"Todo edited !!"));     
 	}
 
-	
+
+	@Override
+	public ApiResponse delete(long id) {
+		Todo todo = todoDAO.findById(id)
+                .orElseThrow(() -> new ResourceNotFound("Todo not found with id : " + id));
+		todoDAO.delete(todo);
+        return (new ApiResponse(201,"Todo deleted !!"));     
+	}
+
 
 }
