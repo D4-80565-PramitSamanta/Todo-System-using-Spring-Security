@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import com.app.dto.ApiResponse;
@@ -20,6 +21,7 @@ public class TodoController {
     private TodoService todoService;
 
     @PostMapping("/add")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ApiResponse> addTodo(@RequestBody TodoDTO todoDTO) {
         ApiResponse response = todoService.addTodo(todoDTO);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
@@ -32,6 +34,7 @@ public class TodoController {
     }
 
     @GetMapping("/getall")
+    @PreAuthorize("hasAnyRole('USER','ADMIN')")
     public ResponseEntity<List<TodoDTO>> getAllTodos() {
         List<TodoDTO> todos = todoService.getAllTodos();
         return new ResponseEntity<>(todos, HttpStatus.OK);

@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,6 +17,7 @@ import org.springframework.security.web.SecurityFilterChain;
 
 
 @Configuration
+@EnableMethodSecurity
 public class SpringSecurityConfig {
 	
 	@Bean
@@ -30,11 +32,11 @@ public class SpringSecurityConfig {
 	    http
 	        .authorizeHttpRequests((authorize) -> { // Configure authorization rules
 	            authorize
-	                .antMatchers(HttpMethod.POST, "/todos/**").hasAnyRole("ADMIN","USER") 
-	                .antMatchers(HttpMethod.PUT,"/todos/**").hasAnyRole("ADMIN","USER")
-	                .antMatchers(HttpMethod.DELETE,"/todos/**").hasRole("ADMIN")
-	                .antMatchers(HttpMethod.PATCH,"/todos/**").hasAnyRole("ADMIN","USER")
-	                .antMatchers(HttpMethod.GET,"/todos/**").permitAll()
+//	                .antMatchers(HttpMethod.POST, "/todos/**").hasAnyRole("ADMIN","USER") 
+//	                .antMatchers(HttpMethod.PUT,"/todos/**").hasAnyRole("ADMIN","USER")
+//	                .antMatchers(HttpMethod.DELETE,"/todos/**").hasRole("ADMIN")
+//	                .antMatchers(HttpMethod.PATCH,"/todos/**").hasAnyRole("ADMIN","USER")
+//	                .antMatchers(HttpMethod.GET,"/todos/**").permitAll()
 	                .anyRequest().authenticated();
 	        })
 	        .httpBasic(Customizer.withDefaults()) // Use HTTP Basic authentication with default settings
