@@ -33,6 +33,7 @@ public class SpringSecurityConfig {
 	                .antMatchers(HttpMethod.POST, "/todos/**").hasRole("ADMIN") // Allow POST requests to "/todos/**" only for users with role "ADMIN"
 	                .antMatchers(HttpMethod.PUT,"/todos/**").hasRole("ADMIN")
 	                .antMatchers(HttpMethod.DELETE,"/todos/**").hasRole("ADMIN")
+	                .antMatchers(HttpMethod.GET,"/todos/**").hasAnyRole("ADMIN","USER")
 	                .anyRequest().authenticated(); // Require authentication for any other request
 	        })
 	        .httpBasic(Customizer.withDefaults()) // Use HTTP Basic authentication with default settings
