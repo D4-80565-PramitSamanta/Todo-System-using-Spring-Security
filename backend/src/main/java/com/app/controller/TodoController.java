@@ -12,6 +12,7 @@ import com.app.dto.TodoDTO;
 import com.app.service.TodoService;
 
 @RestController
+@CrossOrigin("*")
 @RequestMapping("/todos")
 public class TodoController {
 
@@ -24,13 +25,13 @@ public class TodoController {
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/get/{id}")
     public ResponseEntity<TodoDTO> getTodoById(@PathVariable Long id) {
         TodoDTO todoDTO = todoService.getTodo(id);
         return new ResponseEntity<>(todoDTO, HttpStatus.OK);
     }
 
-    @GetMapping("/all")
+    @GetMapping("/getall")
     public ResponseEntity<List<TodoDTO>> getAllTodos() {
         List<TodoDTO> todos = todoService.getAllTodos();
         return new ResponseEntity<>(todos, HttpStatus.OK);
