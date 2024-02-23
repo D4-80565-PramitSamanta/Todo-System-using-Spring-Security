@@ -30,11 +30,12 @@ public class SpringSecurityConfig {
 	    http
 	        .authorizeHttpRequests((authorize) -> { // Configure authorization rules
 	            authorize
-	                .antMatchers(HttpMethod.POST, "/todos/**").hasRole("ADMIN") // Allow POST requests to "/todos/**" only for users with role "ADMIN"
-	                .antMatchers(HttpMethod.PUT,"/todos/**").hasRole("ADMIN")
+	                .antMatchers(HttpMethod.POST, "/todos/**").hasAnyRole("ADMIN","USER") 
+	                .antMatchers(HttpMethod.PUT,"/todos/**").hasAnyRole("ADMIN","USER")
 	                .antMatchers(HttpMethod.DELETE,"/todos/**").hasRole("ADMIN")
-	                .antMatchers(HttpMethod.GET,"/todos/**").hasAnyRole("ADMIN","USER")
-	                .anyRequest().authenticated(); // Require authentication for any other request
+	                .antMatchers(HttpMethod.PATCH,"/todos/**").hasAnyRole("ADMIN","USER")
+	                .antMatchers(HttpMethod.GET,"/todos/**").permitAll()
+	                .anyRequest().authenticated();
 	        })
 	        .httpBasic(Customizer.withDefaults()) // Use HTTP Basic authentication with default settings
 	        .csrf().disable(); // Disable CSRF protection (place this last)
