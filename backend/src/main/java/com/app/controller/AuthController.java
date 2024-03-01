@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.app.dto.ApiResponse;
+import com.app.dto.LoginDTO;
 import com.app.dto.RegDTO;
 import com.app.service.AuthService;
 
@@ -28,6 +29,13 @@ public class AuthController {
 	public ResponseEntity<ApiResponse> register(@RequestBody RegDTO dto)
 	{
 		ApiResponse apiResponse = service.register(dto);
+		return ResponseEntity.status(apiResponse.getStatus()).body(apiResponse);
+	}
+	
+	@PostMapping("/login")
+	public ResponseEntity<ApiResponse> login(@RequestBody LoginDTO dto)
+	{
+		ApiResponse apiResponse = service.login(dto);
 		return ResponseEntity.status(apiResponse.getStatus()).body(apiResponse);
 	}
 }

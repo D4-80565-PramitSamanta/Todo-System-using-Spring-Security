@@ -7,6 +7,10 @@ import javax.transaction.Transactional;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;import org.springframework.data.convert.JodaTimeConverters.DateToDateTimeConverter;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.ResourceAccessException;
@@ -14,6 +18,7 @@ import org.springframework.web.client.ResourceAccessException;
 import com.app.dao.RoleRepository;
 import com.app.dao.UserRepository;
 import com.app.dto.ApiResponse;
+import com.app.dto.LoginDTO;
 import com.app.dto.RegDTO;
 import com.app.entities.Role;
 import com.app.entities.User;
@@ -40,6 +45,8 @@ public class AuthServiceImpl implements AuthService {
 	@Autowired
 	ModelMapper mapper;
 	
+	@Autowired
+	AuthenticationManager authManager;
 	
 	@Override
 	@Transactional
@@ -64,6 +71,18 @@ public class AuthServiceImpl implements AuthService {
 		user.setRoles(roles);
 		udao.save(user);
 		return (new ApiResponse(201,"user added successfully!!"));
+	}
+	
+	@Override
+	public ApiResponse login(LoginDTO dto) {
+		Authentication authentication = authManager.authenticate( 
+				new UsernamePasswordAuthenticationToken(
+						dto.getUsernameoremail(), 
+						dto.getPassword()));
+		
+	
+		SecurityContextHolder.getContext().setAuthentication(authentication);
+		return (new ApiResponse(200,"user logged in successfully!!"));
 	}
 
 }
