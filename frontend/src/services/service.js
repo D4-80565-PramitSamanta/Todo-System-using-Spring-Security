@@ -27,3 +27,23 @@ export const RegNew = (regdto) => axios.post(regURL, regdto);
 
 const loginURL = 'http://localhost:8080/reg/login';
 export const Login = (logindto) => axios.post(loginURL, logindto);
+
+
+
+axios.interceptors.request.use(
+    function (config) {
+        config.headers['Authorization'] = getToken(); // Assuming `getToken()` is a function that retrieves the token
+        return config;
+    },
+    function (error) {
+        return Promise.reject(error);
+    }
+);
+
+
+
+export const storeToken = (token) => localStorage.setItem("token",token);
+
+export const getToken = (token) => localStorage.getItem("token");
+
+

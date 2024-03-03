@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Login } from '../services/service';
+import { Login, storeToken } from '../services/service';
 
 const LoginCom = () => {
     const [usernameoremail, setusernameoremail] = useState("");
@@ -9,6 +9,8 @@ const LoginCom = () => {
         event.preventDefault();
         console.log("Username/Email:", usernameoremail);
         console.log("Password:", password);
+        const token = 'Basic ' + window.btoa(usernameoremail + ":" + password);
+        storeToken(token);
         const logindto = { usernameoremail,password};
         Login(logindto)
         .then(res=>{console.log(res)})
