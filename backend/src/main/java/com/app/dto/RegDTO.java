@@ -11,7 +11,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class RegDTO {
 	String name;
-	String userName;
+	String username;
 	String email;
 	String password;
 	

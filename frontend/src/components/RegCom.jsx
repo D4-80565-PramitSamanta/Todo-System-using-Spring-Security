@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { RegNew } from '../services/service';
 
 const RegCom = () => {
     const [name, setName] = useState("");
@@ -25,8 +26,11 @@ const RegCom = () => {
     const handleSubmit = (event) => {
         event.preventDefault();
         // Handle form submission here, e.g., send data to server
-        const logindto = {name, username, email, password};
-        console.log(logindto);
+        const regDTO = {name, username, email, password};
+        console.log(regDTO);
+        RegNew(regDTO)
+        .then((res)=>{console.log(res)})
+        .catch((err)=>{console.log(err)});
     };
 
     return (

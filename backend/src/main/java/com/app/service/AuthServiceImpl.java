@@ -52,7 +52,7 @@ public class AuthServiceImpl implements AuthService {
 	@Override
 	@Transactional
 	public ApiResponse register(RegDTO drdto) {
-		if(udao.existsByUsername(drdto.getUserName()))
+		if(udao.existsByUsername(drdto.getUsername()))
 		{
 			throw new ResourceAccessException("username exists");
 		}else if(udao.existsByEmail(drdto.getEmail()))
@@ -64,8 +64,8 @@ public class AuthServiceImpl implements AuthService {
 		user.setEmail(drdto.getEmail());
 		user.setName(drdto.getName());
 		user.setPassword(encoder.encode(drdto.getPassword()));
-		System.out.println(drdto.getUserName());
-		user.setUsername(drdto.getUserName());
+		System.out.println(drdto.getUsername());
+		user.setUsername(drdto.getUsername());
 		Set<Role> roles = new HashSet<Role>();
 		Role r = rdao.findByName("ROLE_USER");
 		roles.add(r);

@@ -21,3 +21,6 @@ export const ComTodo = (id) => axios.patch(comurl + '/' + id +  "/complete");
 
 const incomurl = 'http://localhost:8080/todos';
 export const IncomTodo = (id) => axios.patch(incomurl + '/' + id + "/in-complete");
+
+const regURL = 'http://localhost:8080/reg/new';
+export const RegNew = (regdto) => axios.post(regURL, regdto);
