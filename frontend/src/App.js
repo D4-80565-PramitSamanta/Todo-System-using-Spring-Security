@@ -5,6 +5,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom'; // Import Brows
 import TodoComonent from './components/TodoComonent';
 import RegCom from './components/RegCom';
 import { Footer, Header } from './components/headerfooter';
+import LoginCom from './components/LoginCom';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           <Route path="/add" element={<TodoComonent />} />
           <Route path='/edit/:id' element={<TodoComonent />} />
           <Route path='/register' element={<RegCom />} />
+          <Route path='/login' element={<LoginCom/>} />
         </Routes>
         <Footer></Footer>
       </BrowserRouter>
