@@ -32,7 +32,7 @@ export const Login = (logindto) => axios.post(loginURL, logindto);
 
 axios.interceptors.request.use(
     function (config) {
-        config.headers['Authorization'] = getToken(); // Assuming `getToken()` is a function that retrieves the token
+        config.headers['Authorization'] = getToken();
         return config;
     },
     function (error) {
@@ -44,6 +44,31 @@ axios.interceptors.request.use(
 
 export const storeToken = (token) => localStorage.setItem("token",token);
 
-export const getToken = (token) => localStorage.getItem("token");
+export const getToken = () => localStorage.getItem("token");
+
+export const saveLoggedinUser = (username)=> { 
+    sessionStorage.setItem("authinticatedUser",username);
+}
 
 
+export const isUseLoggedin = () => {
+    const username = sessionStorage.getItem("authinticatedUser");
+    if(username==null)
+    {
+        return false;
+    }else{
+        return true;
+    }
+}
+
+export const getLoggedinuser = ()=>
+{
+    const username = sessionStorage.getItem("authinticatedUser");
+    return username;
+}
+
+
+export const Logout = ()=>{
+    localStorage.clear();
+    sessionStorage.clear();
+}

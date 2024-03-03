@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
-import { Login, storeToken } from '../services/service';
+import { Login, saveLoggedinUser, storeToken } from '../services/service';
+import { useNavigate } from 'react-router-dom';
 
 const LoginCom = () => {
+    const nav = useNavigate();
     const [usernameoremail, setusernameoremail] = useState("");
     const [password, setPassword] = useState("");
 
@@ -9,11 +11,16 @@ const LoginCom = () => {
         event.preventDefault();
         console.log("Username/Email:", usernameoremail);
         console.log("Password:", password);
-        const token = 'Basic ' + window.btoa(usernameoremail + ":" + password);
-        storeToken(token);
         const logindto = { usernameoremail,password};
         Login(logindto)
-        .then(res=>{console.log(res)})
+        .then(res=>{
+            console.log(res);
+            const token = 'Basic ' + window.btoa(usernameoremail + ":" + password);
+            saveLoggedinUser(usernameoremail);
+            storeToken(token);
+            nav("/all");
+            window.location.reload();
+    })
         .catch(err=>{console.log(err)});
     };
 

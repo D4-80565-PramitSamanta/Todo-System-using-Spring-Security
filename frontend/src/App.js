@@ -6,6 +6,7 @@ import TodoComonent from './components/TodoComonent';
 import RegCom from './components/RegCom';
 import { Footer, Header } from './components/headerfooter';
 import LoginCom from './components/LoginCom';
+import { Login } from './services/service';
 
 function App() {
   return (
@@ -13,7 +14,7 @@ function App() {
       <BrowserRouter>
         <Header></Header>
         <Routes>
-          <Route path="/" element={<ListComponents />} /> 
+          <Route path="/" element={<LoginCom />} /> 
           <Route path="/all" element={<ListComponents />} />
           <Route path="/add" element={<TodoComonent />} />
           <Route path='/edit/:id' element={<TodoComonent />} />
