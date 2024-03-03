@@ -3,17 +3,22 @@ import './App.css';
 import ListComponents from './components/ListComponents';
 import { BrowserRouter, Route, Routes } from 'react-router-dom'; // Import BrowserRouter and Route separately
 import TodoComonent from './components/TodoComonent';
+import RegCom from './components/RegCom';
+import { Footer, Header } from './components/headerfooter';
 
 function App() {
   return (
     <div className="App">
       <BrowserRouter>
+        <Header></Header>
         <Routes>
           <Route path="/" element={<ListComponents />} /> 
           <Route path="/all" element={<ListComponents />} />
           <Route path="/add" element={<TodoComonent />} />
           <Route path='/edit/:id' element={<TodoComonent />} />
+          <Route path='/register' element={<RegCom />} />
         </Routes>
+        <Footer></Footer>
       </BrowserRouter>
     </div>
   );

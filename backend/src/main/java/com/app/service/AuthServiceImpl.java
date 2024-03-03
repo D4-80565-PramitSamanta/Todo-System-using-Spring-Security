@@ -47,6 +47,7 @@ public class AuthServiceImpl implements AuthService {
 	
 	@Autowired
 	AuthenticationManager authManager;
+	// another cool thing about security
 	
 	@Override
 	@Transactional
