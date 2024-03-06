@@ -15,7 +15,8 @@ const LoginCom = () => {
         Login(logindto)
         .then(res=>{
             console.log(res);
-            const token = 'Basic ' + window.btoa(usernameoremail + ":" + password);
+            //const token = 'Basic ' + window.btoa(usernameoremail + ":" + password);
+            const token = 'Bearer ' + res.data.accessToken;
             saveLoggedinUser(usernameoremail);
             storeToken(token);
             nav("/all");
