@@ -6,5 +6,5 @@ import com.app.dto.RegDTO;
 
 public interface AuthService {
 	public ApiResponse register(RegDTO drdto );
-	public ApiResponse login(LoginDTO dto);
+    public String login(LoginDTO loginDto);
 }

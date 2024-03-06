@@ -1,6 +1,7 @@
 package com.app.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.app.dto.ApiResponse;
+import com.app.dto.JwtAuthResponse;
 import com.app.dto.LoginDTO;
 import com.app.dto.RegDTO;
 import com.app.service.AuthService;
@@ -32,10 +34,15 @@ public class AuthController {
 		return ResponseEntity.status(apiResponse.getStatus()).body(apiResponse);
 	}
 	
-	@PostMapping("/login")
-	public ResponseEntity<ApiResponse> login(@RequestBody LoginDTO dto)
-	{
-		ApiResponse apiResponse = service.login(dto);
-		return ResponseEntity.status(apiResponse.getStatus()).body(apiResponse);
-	}
+	// Build Login REST API
+    @PostMapping("/login")
+    public ResponseEntity<JwtAuthResponse> login(@RequestBody LoginDTO loginDto){
+        String token = service.login(loginDto);
+
+        JwtAuthResponse jwtAuthResponse = new JwtAuthResponse();
+        jwtAuthResponse.setAccessToken(token);
+
+        return new ResponseEntity<>(jwtAuthResponse, HttpStatus.OK);
+    }
+
 }

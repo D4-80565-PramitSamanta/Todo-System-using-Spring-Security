@@ -15,6 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.ResourceAccessException;
 
+import com.app.JWTTokenProvider;
 import com.app.dao.RoleRepository;
 import com.app.dao.UserRepository;
 import com.app.dto.ApiResponse;
@@ -49,6 +50,10 @@ public class AuthServiceImpl implements AuthService {
 	AuthenticationManager authManager;
 	// another cool thing about security
 	
+	@Autowired
+    JWTTokenProvider jwtTokenProvider;
+
+	
 	@Override
 	@Transactional
 	public ApiResponse register(RegDTO drdto) {
@@ -75,15 +80,18 @@ public class AuthServiceImpl implements AuthService {
 	}
 	
 	@Override
-	public ApiResponse login(LoginDTO dto) {
-		Authentication authentication = authManager.authenticate( 
-				new UsernamePasswordAuthenticationToken(
-						dto.getUsernameoremail(), 
-						dto.getPassword()));
-		
-	
-		SecurityContextHolder.getContext().setAuthentication(authentication);
-		return (new ApiResponse(200,"user logged in successfully!!"));
-	}
+    public String login(LoginDTO loginDto) {
+
+        Authentication authentication = authManager.authenticate(new UsernamePasswordAuthenticationToken(
+                loginDto.getUsernameoremail(),
+                loginDto.getPassword()
+        ));
+
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        String token = jwtTokenProvider.generateToken(authentication);
+
+        return token;
+    }
 
 }
