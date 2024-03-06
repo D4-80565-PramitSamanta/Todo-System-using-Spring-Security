@@ -1,6 +1,7 @@
 package com.app.service;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 import javax.transaction.Transactional;
@@ -19,6 +20,7 @@ import com.app.JWTTokenProvider;
 import com.app.dao.RoleRepository;
 import com.app.dao.UserRepository;
 import com.app.dto.ApiResponse;
+import com.app.dto.JwtAuthResponse;
 import com.app.dto.LoginDTO;
 import com.app.dto.RegDTO;
 import com.app.entities.Role;
@@ -80,7 +82,7 @@ public class AuthServiceImpl implements AuthService {
 	}
 	
 	@Override
-    public String login(LoginDTO loginDto) {
+    public JwtAuthResponse login(LoginDTO loginDto) {
 
         Authentication authentication = authManager.authenticate(new UsernamePasswordAuthenticationToken(
                 loginDto.getUsernameoremail(),
@@ -91,7 +93,24 @@ public class AuthServiceImpl implements AuthService {
 
         String token = jwtTokenProvider.generateToken(authentication);
 
-        return token;
+        Optional<User> userOptional = udao.findByUsernameOrEmail(loginDto.getUsernameoremail(), loginDto.getUsernameoremail());
+        String role = null;
+        if(userOptional.isPresent())
+        {
+        	User loggedinUser = userOptional.get();
+        	Optional<Role> optionalRole = loggedinUser.getRoles().stream().findFirst();
+        	if(optionalRole.isPresent())
+        	{
+        		Role userRole = optionalRole.get();
+        		role = userRole.getName();
+        	}
+        }
+        
+        JwtAuthResponse jwtAuthResponse = new JwtAuthResponse();
+        jwtAuthResponse.setRole(role);
+        jwtAuthResponse.setAccessToken(token);
+        return jwtAuthResponse;
+        
     }
 
 }
