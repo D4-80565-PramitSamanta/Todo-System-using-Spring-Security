@@ -4,48 +4,55 @@ import { useNavigate } from 'react-router-dom';
 
 const LoginCom = () => {
     const nav = useNavigate();
-    const [usernameoremail, setusernameoremail] = useState("");
+    const [usernameoremail, setUsernameoremail] = useState("");
     const [password, setPassword] = useState("");
 
     const handleLogin = (event) => {
         event.preventDefault();
         console.log("Username/Email:", usernameoremail);
         console.log("Password:", password);
-        const logindto = { usernameoremail,password};
+
+        const logindto = { usernameoremail, password };
         Login(logindto)
-        .then(res=>{
-            console.log(res);
-            //const token = 'Basic ' + window.btoa(usernameoremail + ":" + password);
-            const token = 'Bearer ' + res.data.accessToken;
-            saveLoggedinUser(usernameoremail);
-            storeToken(token);
-            nav("/all");
-            window.location.reload();
-    })
-        .catch(err=>{console.log(err)});
+            .then((res) => {
+                console.log(res);
+                const token = 'Bearer ' + res.data.accessToken;
+                const role = res.data.role;
+                saveLoggedinUser(usernameoremail, role);
+                storeToken(token);
+                nav("/all");
+                window.location.reload(); // Consider alternative for potential state issues (see note)
+            })
+            .catch((err) => console.log(err));
     };
 
     return (
-        <div>
+        <div className="login-container"> {/* Apply container class */}
             <h2>Login</h2>
-            <form onSubmit={handleLogin}>
-                <div>
-                    <label>Username or Email:</label>
+            <form onSubmit={handleLogin} className="login-form"> {/* Apply form class */}
+                <div className="form-group"> {/* Group form elements */}
+                    <label htmlFor="usernameoremail">Username or Email:</label>
                     <input
                         type="text"
+                        id="usernameoremail"
                         value={usernameoremail}
-                        onChange={(e) => setusernameoremail(e.target.value)}
+                        onChange={(e) => setUsernameoremail(e.target.value)}
+                        className="form-control" // Apply input styling
                     />
                 </div>
-                <div>
-                    <label>Password:</label>
+                <div className="form-group">
+                    <label htmlFor="password">Password:</label>
                     <input
                         type="password"
+                        id="password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
+                        className="form-control" // Apply input styling
                     />
                 </div>
-                <button type="submit">Login</button>
+                <button type="submit" className="login-btn">
+                    Login
+                </button>
             </form>
         </div>
     );

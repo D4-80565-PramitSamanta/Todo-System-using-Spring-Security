@@ -46,8 +46,9 @@ export const storeToken = (token) => localStorage.setItem("token",token);
 
 export const getToken = () => localStorage.getItem("token");
 
-export const saveLoggedinUser = (username)=> { 
+export const saveLoggedinUser = (username, role)=> { 
     sessionStorage.setItem("authinticatedUser",username);
+    sessionStorage.setItem("role",role);
 }
 
 
@@ -71,4 +72,16 @@ export const getLoggedinuser = ()=>
 export const Logout = ()=>{
     localStorage.clear();
     sessionStorage.clear();
+}
+
+export const isAdmin = ()=>{
+    let role = sessionStorage.getItem("role");
+    if (role != null && role ==='ROLE_ADMIN')
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
 }
